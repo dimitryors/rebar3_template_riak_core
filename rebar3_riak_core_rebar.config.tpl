@@ -42,7 +42,7 @@
 {overrides,
  [{override, eleveldb,
    [
-     {artifacts, ["c_src/riak_ensemble_clock.o"]},
+     {artifacts, ["priv/eleveldb.so"]},
      {pre_hooks, [{compile, "c_src/build_deps.sh get-deps"},
                   {compile, "c_src/build_deps.sh"}]},
 
@@ -60,7 +60,7 @@
   },
   {override, riak_ensemble,
   [
-     {artifacts, ["priv/riak_ensemble_drv.so"]},
+     {artifacts, ["c_src/riak_ensemble_clock.o"]},
      {plugins, [pc]},
      {provider_hooks, [{post,
                          [{compile, {pc, compile}},
