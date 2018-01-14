@@ -1,7 +1,6 @@
 {erl_opts, [debug_info, {parse_transform, lager_transform}]}.
 
 {deps, [
-    {lager, {git, "https://github.com/basho/lager.git", {tag, "3.2.4"}}},
     {pbkdf2, {git, "git://github.com/marianoguerra/erlang-pbkdf2-no-history", {branch, "master"}}},
     {exometer_core, {git, "git://github.com/basho/exometer_core.git", {branch, "th/correct-dependencies"}}},
     {riak_core, {git, "git://github.com/basho/riak_core", {branch, "develop"}}}
@@ -34,13 +33,14 @@
 
 {profiles, [
     {prod, [{relx, [{dev_mode, false}, {include_erts, true}]}]},
-    {dev1, [{relx, [{overlay_vars, ["config/vars.config", "config/vars_dev1.config"]}]}]},
-    {dev2, [{relx, [{overlay_vars, ["config/vars.config", "config/vars_dev2.config"]}]}]},
-    {dev3, [{relx, [{overlay_vars, ["config/vars.config", "config/vars_dev3.config"]}]}]}
+    {dev1, [{relx, [{overlay_vars, "config/vars_dev1.config"}]}]},
+    {dev2, [{relx, [{overlay_vars, "config/vars_dev2.config"}]}]},
+    {dev3, [{relx, [{overlay_vars, "config/vars_dev3.config"}]}]}
 ]}.
 
 {overrides,
- [{override, eleveldb,
+ [
+ {override, eleveldb,
    [
      {artifacts, ["priv/eleveldb.so"]},
      {pre_hooks, [{compile, "c_src/build_deps.sh get-deps"},
@@ -60,7 +60,7 @@
   },
   {override, riak_ensemble,
   [
-     {artifacts, ["c_src/riak_ensemble_clock.o"]},
+     {artifacts, ["priv/riak_ensemble_drv.so"]},
      {plugins, [pc]},
      {provider_hooks, [{post,
                          [{compile, {pc, compile}},
